@@ -1,38 +1,27 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {checkUser, checkUsers, fetchUsers} from './redux/actions';
+import {requestUsers} from './redux/actions';
+import UsersList from '@components/UsersList';
+import Loader from '@components/Loader';
 
 export default function App () {
-    const users = useSelector(state => state.app.users);
+    const {users, loading} = useSelector(state => state.app);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchUsers());
+        dispatch(requestUsers());
     }, []);
 
-    const checkedAll = users.every(user => user.checked);
-
-    const toggleUser = id => {
-        dispatch(checkUser(id));
-    };
-
-    const toggleUsers = () => {
-        dispatch(checkUsers());
-    };
-
     return (
-        <div>
+        <div className="container">
             <h1>Foxford</h1>
-            <input type="checkbox" id="all" onChange={toggleUsers} checked={checkedAll} />
-            <label htmlFor="all">Отметить всех</label>
-            <ul>
-                {users.map(user => (
-                    <li key={user.id} className={user.checked ? 'checked' : ''}>
-                        <input checked={user.checked} type="checkbox" id={user.id} name={user.id} onChange={toggleUser.bind(null, user.id)} />
-                        <label htmlFor={user.id}>{user.firstName} {user.lastName} {user.age}</label>
-                    </li>
-                ))}
-            </ul>
+            {loading
+                ? <Loader />
+                : <>
+                    <UsersList users={users} />
+                    <p>Users: {users.filter(user => user.checked).map(user => user.firstName).join(', ')}</p>
+                </>
+            }
         </div>
     );
 }

@@ -1,31 +1,10 @@
-import {CHECK_USER, CHECK_USERS, FETCH_USERS} from './types';
+import {CHECK_USER, CHECK_USERS, HIDE_LOADER, REQUEST_USERS, SHOW_LOADER} from './types';
 
-export const fetchUsers = () => {
-    return async dispatch => {
-        try {
-            const responseRaw = await fetch('http://localhost:4000/users');
-            const users = await responseRaw.json();
-
-            dispatch({
-                type: FETCH_USERS,
-                payload: users,
-            });
-
-        } catch(e) {
-            console.warn(e.message);
-        }
-    }
-};
-
-export const checkUser = id => {
-    return {
-        type: CHECK_USER,
-        payload: id,
-    }
-};
-
-export const checkUsers = () => {
-    return {
-        type: CHECK_USERS
-    }
-};
+export const requestUsers = () => ({type: REQUEST_USERS});
+export const checkUser = id => ({
+    type: CHECK_USER,
+    payload: id,
+});
+export const checkUsers = () => ({type: CHECK_USERS});
+export const showLoader = () => ({type: SHOW_LOADER});
+export const hideLoader = () => ({type: HIDE_LOADER});

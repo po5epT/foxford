@@ -1,0 +1,46 @@
+@import "~normalize.css";
+@import "variables";
+@import "checkbox";
+@import "loader";
+
+html {
+  font-size: 16px;
+}
+
+body, body * {
+  box-sizing: border-box;
+}
+.container {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.table {
+  width: 100%;
+
+  &__head {
+
+    .table__row {
+      border-bottom: 2px solid $primary-color;
+    }
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+
+    &--checked {
+      background-color: $secondary-color;
+    }
+  }
+
+  &__cell {
+    padding: .5rem 1rem;
+
+    &--user {
+      flex: 1 0 33%;
+    }
+  }
+}
+

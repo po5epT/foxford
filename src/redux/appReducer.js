@@ -1,7 +1,8 @@
-import {CHECK_USER, CHECK_USERS, FETCH_USERS} from './types';
+import {CHECK_USER, CHECK_USERS, FETCH_USERS, HIDE_LOADER, SHOW_LOADER} from './types';
 
 const initialState = {
     users: [],
+    loading: false,
 };
 
 export const appReducer = (state = initialState, action) => {
@@ -18,14 +19,19 @@ export const appReducer = (state = initialState, action) => {
             return {...state, users: [...users]};
         }
         case CHECK_USERS: {
-            const allChecked = state.users.some(user => user.checked);
+            const checkedAll = state.users.every(user => user.checked);
             const users = state.users.map(user => {
-                user.checked = hasChecked;
+                user.checked = !checkedAll;
 
                 return user;
             });
             return {...state, users: [...users]};
         }
+
+        case SHOW_LOADER:
+            return {...state, loading: true};
+        case HIDE_LOADER:
+            return {...state, loading: false};
         default:
             return state;
     }
